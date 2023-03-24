@@ -1,0 +1,22 @@
+{
+  "name": "base_architecture",
+  "version": "1.0.0",
+  "description": "baseProject",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AhmedSamirScience/BasicArchitectureNodeJs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AhmedSamirScience/BasicArchitectureNodeJs/issues"
+  },
+  "homepage": "https://github.com/AhmedSamirScience/BasicArchitectureNodeJs#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
