@@ -20,6 +20,18 @@ app.get("/", (req, res)=> {
 });
 //#endregion
 
+//#region middle wares
+/**
+ * hna ana h3mel el url encoded bas da by2olk 3lshan law htakhoud 7aga mn el website msh fahmha awi bas ana hktbha w a3mlha comment l7ad m3raf leh blzabt
+ */
+//app.use(express.urlencoded({extended:true}))// w daa b3mlo 3lshan by3ml warning
+
+/**
+ * howa hna 3lshan b2a a3mel ajax request mn el postman 3ala 7ad 3elmi fa lazem a3mel el l2ta de 
+ */
+app.use(express.json())
+//#endregion
+
 //#region Request get All Students
 //http://localhost:3000/api/Students (URL)
 
@@ -28,19 +40,17 @@ const students = [{name: 'Ali', dept:'PD',id:'1'},
                   {name: 'Mohamed', dept:'PD',id:'3'},
                   {name: 'Omar', dept:'PS',id:'4'}];
 app.get("/api/Students", (req, res)=> {
+    //res.set("Access-Control-Allow-Origin", "*"); el 7war da bta3 el cros w bytla3 kda fe 7war security w link bta3 el video mwgod ahoh -> https://www.youtube.com/watch?time_continue=157&v=nKQCIr2N6ec&embeds_widget_referrer=https%3A%2F%2Fmaharatech.gov.eg%2Fmod%2Fhvp%2Fview.php%3Fid%3D11231%26forceview%3D1&embeds_euri=https%3A%2F%2Fmaharatech.gov.eg%2F&embeds_origin=https%3A%2F%2Fmaharatech.gov.eg&source_ve_path=MjM4NTE&feature=emb_title&ab_channel=MaharaTech-ITIMOOCA
     res.send(students);
 })
 //#endregion
 
 //#region Request get Student by id using route paramters
 //http://localhost:3000/api/Students/2 (URL)
-const studentById = [{name: 'Ali', dept:'PD',id:'1'},
-                  {name: 'Ahmed', dept:'PS',id:'2'},
-                  {name: 'Mohamed', dept:'PD',id:'3'},
-                  {name: 'Omar', dept:'PS',id:'4'}];
+
 app.get("/api/Students/:id", (req, res)=> {
     let id = req.params.id
-    const std = studentById.find((val, idx,arr)=>{return val.id == id})
+    const std = students.find((val, idx,arr)=>{return val.id == id})
 
     if(std)
     {
@@ -60,3 +70,44 @@ app.get("/api/getQueryString", (req, res)=> {
 })
 //#endregion
 
+//#region create new Student 
+
+app.post("/api/Students", (req, res)=> {
+    req.body.id = students.length+1;
+    students.push(req.body);
+    res.json(req.body)
+})
+//#endregion
+
+//#region delete  Student 
+app.delete("/api/Students/:id", (req, res)=> {
+    let idx = students.findIndex((val => {return val.id== req.params.id}))
+    if(idx!=-1)
+    {
+        let deleteStd = students.splice(idx, 1);
+        res.send("One element affected")
+    }
+    else
+    {
+        res.send("Student not found")
+    }
+ })
+//#endregion
+
+//#region put  Student 
+app.put("/api/Students/:id", (req, res)=> {
+    let idx = students.findIndex((val => {return val.id== req.params.id}))
+    if(idx!=-1)
+    {
+        for (i in req.body)
+        {
+            students[idx][i]= req.body[i]
+        }
+        res.json(students[idx])
+    }
+    else
+    {
+        res.send("Student not found... update is not allowed")
+    }
+ })
+//#endregion
