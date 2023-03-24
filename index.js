@@ -20,9 +20,9 @@ app.get("/", (req, res)=> {
 });
 //#endregion
 
-
-
 //#region Request get All Students
+//http://localhost:3000/api/Students (URL)
+
 const students = [{name: 'Ali', dept:'PD',id:'1'},
                   {name: 'Ahmed', dept:'PS',id:'2'},
                   {name: 'Mohamed', dept:'PD',id:'3'},
@@ -32,7 +32,8 @@ app.get("/api/Students", (req, res)=> {
 })
 //#endregion
 
-//#region Request get Student by id
+//#region Request get Student by id using route paramters
+//http://localhost:3000/api/Students/2 (URL)
 const studentById = [{name: 'Ali', dept:'PD',id:'1'},
                   {name: 'Ahmed', dept:'PS',id:'2'},
                   {name: 'Mohamed', dept:'PD',id:'3'},
@@ -49,6 +50,13 @@ app.get("/api/Students/:id", (req, res)=> {
     {
         res.send("We didn't found any students by this id ("+id+")")
     }
+})
+//#endregion
+
+//#region get API by query String 
+//http://localhost:3000/api/getQueryString?firstQueryString=Ahmed&secondQueryString=1 (URL)
+app.get("/api/getQueryString", (req, res)=> {
+    res.send("Here are the values you sent in query string request:  ("+req.query.firstQueryString+")"+ " - ("+req.query.secondQueryString+")" );
 })
 //#endregion
 
