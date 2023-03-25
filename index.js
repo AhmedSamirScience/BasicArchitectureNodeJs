@@ -70,12 +70,22 @@ app.get("/api/getQueryString", (req, res)=> {
 })
 //#endregion
 
-//#region create new Student 
+//#region create new Student POST API
 
 app.post("/api/Students", (req, res)=> {
-    req.body.id = students.length+1;
-    students.push(req.body);
-    res.json(req.body)
+    let valid = validator(req.body);
+
+    if(valid)
+    {
+        req.body.id = students.length+1;
+        students.push(req.body);
+        res.json(req.body)
+    }
+    else
+    {
+        res.status(403).send("forbidden")
+    }
+    
 })
 //#endregion
 
@@ -110,4 +120,29 @@ app.put("/api/Students/:id", (req, res)=> {
         res.send("Student not found... update is not allowed")
     }
  })
+//#endregion
+
+
+//#region validation on the input of the request body
+const schema = {
+    "type":"object",
+    "properties":{
+        "name":{
+            "type":"string",
+            "pattern": "^[A-Z][a-z]*$"
+        },
+        "dept":{
+            "type":"string",
+            "enum":["SD", "SA","MD"],
+            "maxLength":2, 
+            "minLength":2
+        }
+    }
+     ,"required":["name", "dept"]
+     ,"maxProperties":2
+     ,"minProperties":2
+} 
+const Ajv = require("ajv")
+const ajv = new Ajv()
+let validator = ajv.compile(schema)
 //#endregion
