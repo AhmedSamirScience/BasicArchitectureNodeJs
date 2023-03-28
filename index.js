@@ -14,13 +14,16 @@ const app = express();
 app.listen(portEnv, ()=>{
     console.log("Listening...!!!"+ portEnv)
 });
+/**
+ * da law 3amal call lel request base bt3na 
+ */
 app.get("/", (req, res)=> {
     console.log("request recieved !!!")
     res.send("this is server response")
 });
 //#endregion
 
-//#region middle wares
+//#region built in Middlewares
 /**
  * hna ana h3mel el url encoded bas da by2olk 3lshan law htakhoud 7aga mn el website msh fahmha awi bas ana hktbha w a3mlha comment l7ad m3raf leh blzabt
  */
@@ -31,6 +34,36 @@ app.get("/", (req, res)=> {
  */
 app.use(express.json())
 //#endregion
+
+//#region built in Middlewares
+/**
+ * hna ana h3mel el url encoded bas da by2olk 3lshan law htakhoud 7aga mn el website msh fahmha awi bas ana hktbha w a3mlha comment l7ad m3raf leh blzabt
+ */
+//app.use(express.urlencoded({extended:true}))// w daa b3mlo 3lshan by3ml warning
+
+/**
+ * howa hna 3lshan b2a a3mel ajax request mn el postman 3ala 7ad 3elmi fa lazem a3mel el l2ta de 
+ */
+app.use(express.json())
+//#endregion
+
+//region route handler Middleware
+/**
+ * el middleware da 3lshan le ay request get howa ely hy7salo call el awl 3lshan da awl wa7ed fl trteb 
+ */
+app.get("*", (req,res,nxt)=> {
+    console.log("(get) request recieved !!!")
+    nxt()
+})
+
+/**
+ * el middleware da 3lshan le ay request ayan kan howa POST GET DELETE PUT ay 7aga  (y3ni ay request i mean) howa ely hy7salo call el awl 3lshan da awl wa7ed fl trteb brdo
+ */
+app.all("*", (req,res,nxt)=> {
+    console.log("(any) request recieved !!!")
+    nxt()
+})
+//endregion
 
 //#region Request get All Students
 //http://localhost:3000/api/Students (URL)
