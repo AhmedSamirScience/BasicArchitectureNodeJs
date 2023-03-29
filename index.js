@@ -35,19 +35,17 @@ app.get("/", (req, res)=> {
 app.use(express.json())
 //#endregion
 
-//#region built in Middlewares
+//#region custom Middleware
 /**
- * hna ana h3mel el url encoded bas da by2olk 3lshan law htakhoud 7aga mn el website msh fahmha awi bas ana hktbha w a3mlha comment l7ad m3raf leh blzabt
+ * khoud balak trteb el middlewares mohem awii 3lshan y3adi 3ala kolo 
  */
-//app.use(express.urlencoded({extended:true}))// w daa b3mlo 3lshan by3ml warning
-
-/**
- * howa hna 3lshan b2a a3mel ajax request mn el postman 3ala 7ad 3elmi fa lazem a3mel el l2ta de 
- */
-app.use(express.json())
+app.use((req, res, next )=>{
+    console.log("Logging....")
+    next()
+})
 //#endregion
 
-//region route handler Middleware
+//#region route handler Middleware
 /**
  * el middleware da 3lshan le ay request get howa ely hy7salo call el awl 3lshan da awl wa7ed fl trteb 
  */
@@ -60,10 +58,10 @@ app.get("*", (req,res,nxt)=> {
  * el middleware da 3lshan le ay request ayan kan howa POST GET DELETE PUT ay 7aga  (y3ni ay request i mean) howa ely hy7salo call el awl 3lshan da awl wa7ed fl trteb brdo
  */
 app.all("*", (req,res,nxt)=> {
-    console.log("(any) request recieved !!!")
+    console.log("(any) request recieved !!! \n \n")
     nxt()
 })
-//endregion
+//#endregion
 
 //#region Request get All Students
 //http://localhost:3000/api/Students (URL)
@@ -155,7 +153,6 @@ app.put("/api/Students/:id", (req, res)=> {
  })
 //#endregion
 
-
 //#region validation on the input of the request body
 const schema = {
     "type":"object",
@@ -179,3 +176,6 @@ const Ajv = require("ajv")
 const ajv = new Ajv()
 let validator = ajv.compile(schema)
 //#endregion
+
+
+
