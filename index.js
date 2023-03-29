@@ -47,10 +47,8 @@ app.use(express.json())
 /**
  * khoud balak trteb el middlewares mohem awii 3lshan y3adi 3ala kolo 
  */
-app.use((req, res, next )=>{
-    console.log("Logging....")
-    next()
-})
+const loggingMiddleWare = require("./middlewares/logging")
+app.use(loggingMiddleWare)
 //#endregion
 
 //#region route handler Middleware
