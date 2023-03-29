@@ -63,6 +63,11 @@ app.all("*", (req,res,nxt)=> {
 })
 //#endregion
 
+//#region 3rd party Middleware
+const helmet = require("helmet")
+app.use(helmet())
+//#endregion
+
 //#region Request get All Students
 //http://localhost:3000/api/Students (URL)
 
@@ -76,11 +81,37 @@ app.get("/api/Students", (req, res)=> {
 })
 //#endregion
 
+
+//#region paramter Middleware
+/**
+ * khoud balak el middle ware da ely howa esmo parameter middleware 3lshan law 3ayez t3mel validation aw ay process abl mtrou7
+ * lel function el assia bta3t el request nafso 3lshan mtdkhoulsh fe ay hasel mlosh lazma w tzawed time el request bta3 el api
+ */
+    app.param("id", (req, res,nxt,val )=>{
+            //validation of paramter
+
+            //req.params.id momken tshel el val w t7out el line da howa howa 3ade 
+            if(Number(val))
+            {
+                //add param as prop for req
+                req.id = val
+                
+                nxt()
+            } 
+            else 
+            {
+                res.send("invalide id")
+
+            }
+    })
+//#endregion
+
 //#region Request get Student by id using route paramters
 //http://localhost:3000/api/Students/2 (URL)
 
 app.get("/api/Students/:id", (req, res)=> {
-    let id = req.params.id
+    //let id = req.params.id
+    let id = req.id // de atzbtt w el id b2a property fl req yasta mn el middleware el howa esmo (parameter middle ware)
     const std = students.find((val, idx,arr)=>{return val.id == id})
 
     if(std)
