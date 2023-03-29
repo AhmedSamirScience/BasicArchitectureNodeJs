@@ -99,31 +99,10 @@ router.put("/:id", (req, res)=> {
 
 
 
-//#region validation on the input of the request body
-const schema = {
-    "type":"object",
-    "properties":{
-        "name":{
-            "type":"string",
-            "pattern": "^[A-Z][a-z]*$"
-        },
-        "dept":{
-            "type":"string",
-            "enum":["SD", "SA","MD"],
-            "maxLength":2, 
-            "minLength":2
-        }
-    }
-     ,"required":["name", "dept"]
-     ,"maxProperties":2
-     ,"minProperties":2
-} 
-const Ajv = require("ajv")
-const ajv = new Ajv()
-let validator = ajv.compile(schema)
-//#endregion
+
 
 //#region create new Student POST API
+const validator = require("../util/StudentsValidator")
 router.post("/", (req, res)=> {
     let valid = validator(req.body);
 
@@ -135,7 +114,7 @@ router.post("/", (req, res)=> {
     }
     else
     {
-        res.status(403).send("forbidden"+ valid)
+        res.status(403).send("forbidden")
     }
     
 })
