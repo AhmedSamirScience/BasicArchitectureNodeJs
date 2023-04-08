@@ -1,8 +1,20 @@
 const Students= require("../models/StudentModel")
-                  
-const getAllStudents = (req, res)=> {
+var queries = require('../db/queries');
+var dbConnection = require('../db/connection');
+
+const getAllStudents = async (req, res)=> {
     //res.set("Access-Control-Allow-Origin", "*"); el 7war da bta3 el cros w bytla3 kda fe 7war security w link bta3 el video mwgod ahoh -> https://www.youtube.com/watch?time_continue=157&v=nKQCIr2N6ec&embeds_widget_referrer=https%3A%2F%2Fmaharatech.gov.eg%2Fmod%2Fhvp%2Fview.php%3Fid%3D11231%26forceview%3D1&embeds_euri=https%3A%2F%2Fmaharatech.gov.eg%2F&embeds_origin=https%3A%2F%2Fmaharatech.gov.eg&source_ve_path=MjM4NTE&feature=emb_title&ab_channel=MaharaTech-ITIMOOCA
-    res.send(Students.fetchAllStudent());
+    try {
+        var storeListQuery = queries.queryList.GET_STORE_LIST_QUERY;
+        var result = await dbConnection.dbQuery(storeListQuery);
+        //return res.status(200).send(JSON.stringify(result.rows));
+        return res.status(200).send(result.rows);
+   } catch (err) {
+       console.log("Error : " + err);
+        return res.status(500).send({error : 'Failed to list store'});
+   }
+   
+   // res.send(Students.fetchAllStudent());
 }
 
 const getStudentById = (req, res)=> {
